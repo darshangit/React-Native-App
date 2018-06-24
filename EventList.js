@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ActionButton from "react-native-action-button";
 import { FlatList, StyleSheet } from "react-native";
 import EventCard from "./EventCard";
+import { getEvents } from "./api";
 
 const styles = StyleSheet.create({
     list: {
@@ -12,6 +13,10 @@ const styles = StyleSheet.create({
 });
 
 class EventList extends Component {
+    static navigationOptions = {
+        title: 'Your Events',
+      };
+      
     state = {
         events: []
     }
@@ -27,11 +32,14 @@ class EventList extends Component {
                 })),
             });
         }, 1000);
-        const events = require('./db.json').events.map(e => ({
-            ...e,
-            date: new Date(e.date)
-        }));
-        this.setState({events});
+        // const events = require('./db.json').events.map(e => ({
+        //     ...e,
+        //     date: new Date(e.date)
+        // }));
+
+        this.props.navigation.addListener('didFocus', () => {
+            getEvents().then(events => this.setState({events}));
+        })
     }
 
     handleAddEvent = () => {

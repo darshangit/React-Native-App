@@ -3,6 +3,9 @@
 # expo
 .expo/
 
+android/
+temp-*/
+
 # dependencies
 /node_modules
 
